@@ -1,0 +1,94 @@
+
+
+
+--------------------------------------------------------------
+OpenDaylight
+
+apt-get update
+apt-get install default-jre-headless -y
+export JAVA_HOME=/usr/lib/jvm/default-java
+./bin/karaf
+feature:install odl-restconf odl-l2switch-switch odl-mdsal-apidocs odl-dlux-all 
+
+--------------------------------------------------------------
+For switches --- setting controller in bridge
+
+STP
+ovs-vsctl set bridge br0 stp_enable=true
+
+ovs-vsctl -O OpenFlow13 dump-flows br0
+
+ovs-vsctl set-controller br0 tcp:172.16.169.158:6633
+
+TO START OVS (if it fails)
+/usr/share/openvswitch/scripts/ovs-ctl start
+
+------------------------------------------------------
+
+Script for ODL
+
+apt-get update
+apt-get install default-jre-headless
+export JAVA_HOME=/usr/lib/jvm/default-java
+cd distribution-karaf-0.5.3-Boron-SR3
+./bin/karaf
+
+
+-------------------------------------------------------
+
+Script for Switchs
+
+ovs-vsctl set bridge br0 stp_enable=true
+# ovs-ofctl -O OpenFlow13 dump-flows br0
+
+ovs-vsctl set-controller br0 tcp:172.16.140.69:6633
+
+
+--------------------------------------------------------
+apt-get install snmp snmpd snmp-mibs-downloader snmptrapd
+
+SNMP MANAGER
+
+sudo apt-get update
+sudo apt-get install snmp snmp-mibs-downloader
+
+
+SNMP DAEMON
+
+sudo apt-get update
+sudo apt-get install snmpd
+apt-get install 
+
+
+SNMP IN CISCO 
+
+snmp-server community public RO
+snmp-server community private RW
+snmp-server enable traps
+snmp-server enable traps ospf cisco-specific errors config-error
+snmp-server enable traps ospf cisco-specific errors shamlink
+snmp-server host 10.0.0.1 traps public
+snmp-server host 10.0.0.1 informs public
+
+snmp-server host 172.16.16.246 public
+
+
+------------------------------------------------------------
+
+Giving internet connection to hosts
+
+------------ In OVS
+ovs-vsctl add-port br0 eth0
+
+------------ On hosts
+
+In Xterm for host:-	
+		- ifconfig h1-eth0 0
+		- dhclient h1-eth0
+		- ping 8.8.8.8	
+
+
+----------------------------------------------------------------
+
+
+
