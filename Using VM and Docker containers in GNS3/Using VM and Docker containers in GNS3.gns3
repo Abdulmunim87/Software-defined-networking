@@ -1,0 +1,704 @@
+{
+    "auto_start": false,
+    "name": "Using VM and Docker containers in GNS3",
+    "project_id": "e8c90188-1d9a-4fc2-89d0-53a7c06804d0",
+    "revision": 4,
+    "topology": {
+        "links": [
+            {
+                "description": "Link from UbuntuVM port Ethernet0 to HUB1 port 2",
+                "destination_node_id": 3,
+                "destination_port_id": 4,
+                "id": 1,
+                "source_node_id": 1,
+                "source_port_id": 1
+            },
+            {
+                "description": "Link from HUB1 port 1 to Internet 0.1-1 port Ethernet0",
+                "destination_node_id": 2,
+                "destination_port_id": 2,
+                "id": 2,
+                "source_node_id": 3,
+                "source_port_id": 3
+            },
+            {
+                "description": "Link from HUB1 port 3 to Open vSwitch management-1 port eth0",
+                "destination_node_id": 4,
+                "destination_port_id": 11,
+                "id": 3,
+                "source_node_id": 3,
+                "source_port_id": 5
+            },
+            {
+                "description": "Link from HUB1 port 4 to Open vSwitch management-2 port eth0",
+                "destination_node_id": 5,
+                "destination_port_id": 27,
+                "id": 4,
+                "source_node_id": 3,
+                "source_port_id": 6
+            },
+            {
+                "description": "Link from Open vSwitch management-1 port eth1 to Ubuntu-1 port eth0",
+                "destination_node_id": 6,
+                "destination_port_id": 43,
+                "id": 5,
+                "source_node_id": 4,
+                "source_port_id": 12
+            },
+            {
+                "description": "Link from Open vSwitch management-1 port eth2 to Ubuntu-2 port eth0",
+                "destination_node_id": 7,
+                "destination_port_id": 44,
+                "id": 6,
+                "source_node_id": 4,
+                "source_port_id": 13
+            },
+            {
+                "description": "Link from Open vSwitch management-2 port eth1 to Ubuntu-3 port eth0",
+                "destination_node_id": 8,
+                "destination_port_id": 45,
+                "id": 7,
+                "source_node_id": 5,
+                "source_port_id": 28
+            },
+            {
+                "description": "Link from Open vSwitch management-2 port eth2 to Ubuntu-4 port eth0",
+                "destination_node_id": 9,
+                "destination_port_id": 46,
+                "id": 8,
+                "source_node_id": 5,
+                "source_port_id": 29
+            },
+            {
+                "description": "Link from Open vSwitch management-1 port eth3 to Open vSwitch management-2 port eth3",
+                "destination_node_id": 5,
+                "destination_port_id": 30,
+                "id": 9,
+                "source_node_id": 4,
+                "source_port_id": 14
+            }
+        ],
+        "nodes": [
+            {
+                "description": "VirtualBox VM",
+                "id": 1,
+                "label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "UbuntuVM",
+                    "x": -4.5,
+                    "y": -25.0
+                },
+                "linked_clone": false,
+                "port_name_format": "Ethernet{0}",
+                "ports": [
+                    {
+                        "adapter_number": 0,
+                        "description": "connected to HUB1 on port 2",
+                        "id": 1,
+                        "link_id": 1,
+                        "name": "Ethernet0",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    }
+                ],
+                "properties": {
+                    "acpi_shutdown": false,
+                    "adapter_type": "Intel PRO/1000 MT Desktop (82540EM)",
+                    "adapters": 1,
+                    "console": 5000,
+                    "enable_remote_console": false,
+                    "headless": false,
+                    "name": "UbuntuVM",
+                    "ram": 2048,
+                    "use_any_adapter": false,
+                    "vmname": "UbuntuVM"
+                },
+                "server_id": 1,
+                "type": "VirtualBoxVM",
+                "vm_id": "8fbf5a3f-ed08-4ddf-8dd6-9a5cd2c8a50f",
+                "x": -216.0,
+                "y": -139.0
+            },
+            {
+                "description": "QEMU VM",
+                "id": 2,
+                "label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "Internet 0.1-1",
+                    "x": 29.0,
+                    "y": -25.0
+                },
+                "linked_clone": true,
+                "port_name_format": "Ethernet{0}",
+                "ports": [
+                    {
+                        "adapter_number": 0,
+                        "description": "connected to HUB1 on port 1",
+                        "id": 2,
+                        "link_id": 2,
+                        "name": "Ethernet0",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    }
+                ],
+                "properties": {
+                    "acpi_shutdown": false,
+                    "adapter_type": "e1000",
+                    "adapters": 1,
+                    "boot_priority": "c",
+                    "console": 5000,
+                    "console_type": "telnet",
+                    "cpu_throttling": 0,
+                    "cpus": 1,
+                    "hda_disk_image": "core-linux-6.4-internet-0.1.img",
+                    "hda_disk_image_md5sum": "8ebc5a6ec53a1c05b7aa101b5ceefe31",
+                    "hda_disk_interface": "ide",
+                    "hdb_disk_interface": "ide",
+                    "hdc_disk_interface": "ide",
+                    "hdd_disk_interface": "ide",
+                    "legacy_networking": false,
+                    "mac_address": "00:04:d0:5a:3c:00",
+                    "name": "Internet 0.1-1",
+                    "options": "-device e1000,netdev=internet0 -netdev vde,sock=/var/run/vde2/qemu0.ctl,id=internet0 -nographic",
+                    "platform": "i386",
+                    "process_priority": "normal",
+                    "qemu_path": "/usr/bin/qemu-system-i386",
+                    "ram": 64,
+                    "usage": "Just connect stuff to the appliance. Everything is automated."
+                },
+                "server_id": 2,
+                "symbol": ":/symbols/cloud.svg",
+                "type": "QemuVM",
+                "vm_id": "82629d16-bc88-4fa7-a669-7c67ca805a3c",
+                "x": 323.5,
+                "y": -115.0
+            },
+            {
+                "description": "Ethernet hub",
+                "device_id": "10a0f500-d841-4629-a3bf-b4696069d3f0",
+                "id": 3,
+                "label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "HUB1",
+                    "x": 15.5,
+                    "y": -25.0
+                },
+                "ports": [
+                    {
+                        "description": "connected to Internet 0.1-1 on port Ethernet0",
+                        "id": 3,
+                        "link_id": 2,
+                        "name": "1",
+                        "nio": "NIO_UDP",
+                        "port_number": 1
+                    },
+                    {
+                        "description": "connected to UbuntuVM on port Ethernet0",
+                        "id": 4,
+                        "link_id": 1,
+                        "name": "2",
+                        "nio": "NIO_UDP",
+                        "port_number": 2
+                    },
+                    {
+                        "description": "connected to Open vSwitch management-1 on port eth0",
+                        "id": 5,
+                        "link_id": 3,
+                        "name": "3",
+                        "nio": "NIO_UDP",
+                        "port_number": 3
+                    },
+                    {
+                        "description": "connected to Open vSwitch management-2 on port eth0",
+                        "id": 6,
+                        "link_id": 4,
+                        "name": "4",
+                        "nio": "NIO_UDP",
+                        "port_number": 4
+                    },
+                    {
+                        "id": 7,
+                        "name": "5",
+                        "port_number": 5
+                    },
+                    {
+                        "id": 8,
+                        "name": "6",
+                        "port_number": 6
+                    },
+                    {
+                        "id": 9,
+                        "name": "7",
+                        "port_number": 7
+                    },
+                    {
+                        "id": 10,
+                        "name": "8",
+                        "port_number": 8
+                    }
+                ],
+                "properties": {
+                    "name": "HUB1"
+                },
+                "server_id": 2,
+                "type": "EthernetHub",
+                "x": -36.0,
+                "y": -92.0
+            },
+            {
+                "description": "Docker container",
+                "id": 4,
+                "label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "Open vSwitch management-1",
+                    "x": -73.5,
+                    "y": -25.0
+                },
+                "ports": [
+                    {
+                        "adapter_number": 0,
+                        "description": "connected to HUB1 on port 3",
+                        "id": 11,
+                        "link_id": 3,
+                        "name": "eth0",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 1,
+                        "description": "connected to Ubuntu-1 on port eth0",
+                        "id": 12,
+                        "link_id": 5,
+                        "name": "eth1",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 2,
+                        "description": "connected to Ubuntu-2 on port eth0",
+                        "id": 13,
+                        "link_id": 6,
+                        "name": "eth2",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 3,
+                        "description": "connected to Open vSwitch management-2 on port eth3",
+                        "id": 14,
+                        "link_id": 9,
+                        "name": "eth3",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 4,
+                        "id": 15,
+                        "name": "eth4",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 5,
+                        "id": 16,
+                        "name": "eth5",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 6,
+                        "id": 17,
+                        "name": "eth6",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 7,
+                        "id": 18,
+                        "name": "eth7",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 8,
+                        "id": 19,
+                        "name": "eth8",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 9,
+                        "id": 20,
+                        "name": "eth9",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 10,
+                        "id": 21,
+                        "name": "eth10",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 11,
+                        "id": 22,
+                        "name": "eth11",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 12,
+                        "id": 23,
+                        "name": "eth12",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 13,
+                        "id": 24,
+                        "name": "eth13",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 14,
+                        "id": 25,
+                        "name": "eth14",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 15,
+                        "id": 26,
+                        "name": "eth15",
+                        "port_number": 0
+                    }
+                ],
+                "properties": {
+                    "adapters": 16,
+                    "aux": 5002,
+                    "console": 5001,
+                    "console_http_path": "/",
+                    "console_http_port": 80,
+                    "console_resolution": "1024x768",
+                    "console_type": "telnet",
+                    "environment": "MANAGEMENT_INTERFACE=1",
+                    "image": "gns3/openvswitch:latest",
+                    "name": "Open vSwitch management-1"
+                },
+                "server_id": 2,
+                "symbol": ":/symbols/multilayer_switch.svg",
+                "type": "DockerVM",
+                "vm_id": "ea17a1b4-70db-4e87-8d82-6c8b2569fa2c",
+                "x": -89.5,
+                "y": -4.5
+            },
+            {
+                "description": "Docker container",
+                "id": 5,
+                "label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "Open vSwitch management-2",
+                    "x": -73.5,
+                    "y": -25.0
+                },
+                "ports": [
+                    {
+                        "adapter_number": 0,
+                        "description": "connected to HUB1 on port 4",
+                        "id": 27,
+                        "link_id": 4,
+                        "name": "eth0",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 1,
+                        "description": "connected to Ubuntu-3 on port eth0",
+                        "id": 28,
+                        "link_id": 7,
+                        "name": "eth1",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 2,
+                        "description": "connected to Ubuntu-4 on port eth0",
+                        "id": 29,
+                        "link_id": 8,
+                        "name": "eth2",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 3,
+                        "description": "connected to Open vSwitch management-1 on port eth3",
+                        "id": 30,
+                        "link_id": 9,
+                        "name": "eth3",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 4,
+                        "id": 31,
+                        "name": "eth4",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 5,
+                        "id": 32,
+                        "name": "eth5",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 6,
+                        "id": 33,
+                        "name": "eth6",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 7,
+                        "id": 34,
+                        "name": "eth7",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 8,
+                        "id": 35,
+                        "name": "eth8",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 9,
+                        "id": 36,
+                        "name": "eth9",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 10,
+                        "id": 37,
+                        "name": "eth10",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 11,
+                        "id": 38,
+                        "name": "eth11",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 12,
+                        "id": 39,
+                        "name": "eth12",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 13,
+                        "id": 40,
+                        "name": "eth13",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 14,
+                        "id": 41,
+                        "name": "eth14",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 15,
+                        "id": 42,
+                        "name": "eth15",
+                        "port_number": 0
+                    }
+                ],
+                "properties": {
+                    "adapters": 16,
+                    "aux": 5004,
+                    "console": 5003,
+                    "console_http_path": "/",
+                    "console_http_port": 80,
+                    "console_resolution": "1024x768",
+                    "console_type": "telnet",
+                    "environment": "MANAGEMENT_INTERFACE=1",
+                    "image": "gns3/openvswitch:latest",
+                    "name": "Open vSwitch management-2"
+                },
+                "server_id": 2,
+                "symbol": ":/symbols/multilayer_switch.svg",
+                "type": "DockerVM",
+                "vm_id": "71ea1098-2821-4022-8ef8-0be6e2e57f10",
+                "x": 155.5,
+                "y": -6.5
+            },
+            {
+                "description": "Docker container",
+                "id": 6,
+                "label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "Ubuntu-1",
+                    "x": -1.5,
+                    "y": -25.0
+                },
+                "ports": [
+                    {
+                        "adapter_number": 0,
+                        "description": "connected to Open vSwitch management-1 on port eth1",
+                        "id": 43,
+                        "link_id": 5,
+                        "name": "eth0",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    }
+                ],
+                "properties": {
+                    "adapters": 1,
+                    "aux": 5006,
+                    "console": 5005,
+                    "console_http_path": "/",
+                    "console_http_port": 80,
+                    "console_resolution": "1024x768",
+                    "console_type": "telnet",
+                    "image": "gns3/ubuntu:xenial",
+                    "name": "Ubuntu-1"
+                },
+                "server_id": 2,
+                "type": "DockerVM",
+                "vm_id": "a032c27b-3fd0-4ccf-bb43-e6280b9f0772",
+                "x": -185.5,
+                "y": 101.5
+            },
+            {
+                "description": "Docker container",
+                "id": 7,
+                "label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "Ubuntu-2",
+                    "x": -1.5,
+                    "y": -25.0
+                },
+                "ports": [
+                    {
+                        "adapter_number": 0,
+                        "description": "connected to Open vSwitch management-1 on port eth2",
+                        "id": 44,
+                        "link_id": 6,
+                        "name": "eth0",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    }
+                ],
+                "properties": {
+                    "adapters": 1,
+                    "aux": 5008,
+                    "console": 5007,
+                    "console_http_path": "/",
+                    "console_http_port": 80,
+                    "console_resolution": "1024x768",
+                    "console_type": "telnet",
+                    "image": "gns3/ubuntu:xenial",
+                    "name": "Ubuntu-2"
+                },
+                "server_id": 2,
+                "type": "DockerVM",
+                "vm_id": "874bcc60-1ac3-49eb-9647-6b1f598d4e3c",
+                "x": -39.5,
+                "y": 101.5
+            },
+            {
+                "description": "Docker container",
+                "id": 8,
+                "label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "Ubuntu-3",
+                    "x": -1.5,
+                    "y": -25.0
+                },
+                "ports": [
+                    {
+                        "adapter_number": 0,
+                        "description": "connected to Open vSwitch management-2 on port eth1",
+                        "id": 45,
+                        "link_id": 7,
+                        "name": "eth0",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    }
+                ],
+                "properties": {
+                    "adapters": 1,
+                    "aux": 5010,
+                    "console": 5009,
+                    "console_http_path": "/",
+                    "console_http_port": 80,
+                    "console_resolution": "1024x768",
+                    "console_type": "telnet",
+                    "image": "gns3/ubuntu:xenial",
+                    "name": "Ubuntu-3"
+                },
+                "server_id": 2,
+                "type": "DockerVM",
+                "vm_id": "506fb083-f5a8-4e9c-b3c0-e52144b92cec",
+                "x": 107.5,
+                "y": 98.5
+            },
+            {
+                "description": "Docker container",
+                "id": 9,
+                "label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "Ubuntu-4",
+                    "x": -1.5,
+                    "y": -25.0
+                },
+                "ports": [
+                    {
+                        "adapter_number": 0,
+                        "description": "connected to Open vSwitch management-2 on port eth2",
+                        "id": 46,
+                        "link_id": 8,
+                        "name": "eth0",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    }
+                ],
+                "properties": {
+                    "adapters": 1,
+                    "aux": 5012,
+                    "console": 5011,
+                    "console_http_path": "/",
+                    "console_http_port": 80,
+                    "console_resolution": "1024x768",
+                    "console_type": "telnet",
+                    "image": "gns3/ubuntu:xenial",
+                    "name": "Ubuntu-4"
+                },
+                "server_id": 2,
+                "type": "DockerVM",
+                "vm_id": "9103aac3-591b-408e-a42a-11fd6ead2ec2",
+                "x": 258.5,
+                "y": 92.5
+            }
+        ],
+        "servers": [
+            {
+                "host": "192.168.58.1",
+                "id": 1,
+                "local": true,
+                "port": 3080,
+                "protocol": "http",
+                "vm": false
+            },
+            {
+                "host": "192.168.58.128",
+                "id": 2,
+                "local": false,
+                "port": 3080,
+                "protocol": "http",
+                "user": "",
+                "vm": true
+            }
+        ]
+    },
+    "type": "topology",
+    "version": "1.5.4"
+}
