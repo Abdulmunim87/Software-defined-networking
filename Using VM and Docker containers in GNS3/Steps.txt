@@ -81,6 +81,14 @@ In Xterm for host:-
 		- dhclient h1-eth0
 		- ping 8.8.8.8
 
+------------------- OR ----------------------------
+
+run "--nat" with the topology creation in mininet
+example:-
+
+sudo mn --controller=remote,ip=<ControllerIP add>,port=6653 --topo=linear,2 --mac --nat
+
+
 
 
 
