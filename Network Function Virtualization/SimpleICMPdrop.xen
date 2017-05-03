@@ -1,0 +1,20 @@
+/*
+
+This file initiates and maps the click file to be runned
+
+*/
+
+
+name   = 'clickos'   // defines the name of the domain that will be added ("xl list" can be used to view all the domains)
+kernel = '/home/ubuntu/cmpe210_clickos_setup/clickos/minios/build/clickos_x86_6$    // path in the clickVM
+
+vcpus  = '1'       // virtual CPUs to be used
+memory = '8'       // use 8 bytes of memory
+
+vif    = ['script=vif-openvswitch,mac=00:00:00:00:01:00,bridge=xenbr0']   // xenbr0 is a OVS bridge (use "ovs-vsctl show" to view all the bridges)
+
+on_poweroff = 'destroy'
+on_reboot   = 'restart'
+on_crash    = 'preserve'
+
+click       = 'SimpleICMPdrop.click'    // this is the click file to run 
