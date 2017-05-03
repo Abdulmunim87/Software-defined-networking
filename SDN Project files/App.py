@@ -1,15 +1,18 @@
+'''
+Application script file.
+This file runs in the controller terminal and uses RESTful APIs to query data
+
+'''
+
 import httplib2
 import json
 import sys
+import os
+import crypt,getpass
 from collections import OrderedDict
 
 h = httplib2.Http(".cache")
 h.add_credentials('admin', 'admin')
-
-ip = ''
-oid = ''
-community = ''
-value = ''
 
 ####################### Get Network Topology #########################
 
@@ -80,14 +83,14 @@ def linkStats():
 	else:
 		print "No data found"
 		print
-		
 ########################## SNMP-GET ##################################
 
 def snmpGET():
-        global ip,oid,community,value
-        
-	getParam()
-        
+	ip = raw_input("Please enter the IP address: ")
+	oid = raw_input("Please enter the OID: ")
+	get = raw_input("Please enter the get-type: ")
+	community = raw_input("Please enter the community: ")
+
 	url = 'http://127.0.0.1:8181/restconf/operations/snmp:snmp-get'
 	Param = {
 		    "input":
@@ -128,24 +131,14 @@ def snmpGET():
 	except ValueError as err:
 		print "ERROR: ", err
 
+######################### SNMP-SET #################################################
 
-####################### Get Parameters ############################################
-		
-def getParam():
-        global ip,oid,community,value
-
-        ip = raw_input("Please enter the IP address: ")
+def snmpSET():
+	ip = raw_input("Please enter the IP address: ")
 	oid = raw_input("Please enter the OID: ")
 	community = raw_input("Please enter the community: ")
 	value = raw_input("Please enter the new value: ")
 
-######################### SNMP-SET #################################################
-
-def snmpSET():
-        global ip,oid,community,value
-        
-	getParam()
-        
 	url = 'http://127.0.0.1:8181/restconf/operations/snmp:snmp-set'
 	Param = {
 		    "input":
@@ -171,6 +164,8 @@ def snmpSET():
 ####################### SYSTEM STATUS #############################################
 
 def sysStatus():
+	print
+	ip = raw_input("Please enter the IP address: ")
 	url = 'http://127.0.0.1:8181/restconf/operations/snmp:snmp-get'
 
 	system = [('System Description', '1.3.6.1.2.1.1.1.0'),
@@ -204,7 +199,7 @@ def sysStatus():
 		Param = {
 			    "input":
 				    {
-				        "ip-address": "127.0.0.1",
+				        "ip-address": str(ip),
 				        "oid" : system[oid],
 				        "get-type" : "GET",
 				        "community" : "public"
@@ -231,7 +226,7 @@ def sysStatus():
 		Param = {
 			    "input":
 				    {
-				        "ip-address": "127.0.0.1",
+				        "ip-address": str(ip),
 				        "oid" : CPU[oid],
 				        "get-type" : "GET",
 				        "community" : "public"
@@ -258,7 +253,7 @@ def sysStatus():
 		Param = {
 			    "input":
 				    {
-				        "ip-address": "127.0.0.1",
+				        "ip-address": str(ip),
 				        "oid" : memory[oid],
 				        "get-type" : "GET",
 				        "community" : "public"
@@ -286,7 +281,7 @@ def sysStatus():
 		Param = {
 			    "input":
 				    {
-				        "ip-address": "127.0.0.1",
+				        "ip-address": str(ip),
 				        "oid" : disk[oid],
 				        "get-type" : "GET",
 				        "community" : "public"
@@ -309,27 +304,72 @@ def sysStatus():
 	
 
 #####################################################################
+def realTime():
+	
+	def snmp():
+		os.system('sudo gnome-terminal -x sh -c "sudo tcpdump -i any port 161; bash"')
+		os.system('sudo gnome-terminal -x sh -c "sudo tcpdump -w snmp.pcap -i any port 161; bash"')
+		return True
+	
+	def trap():
+		os.system('sudo gnome-terminal -x sh -c "sudo tcpdump -i any port 162; bash"')
+		os.system('sudo gnome-terminal -x sh -c "sudo tcpdump -w snmp.pcap -i any port 162; bash"')
+		return True			
+		
+	def Exit():
+		print	
+		print "Exiting to Main menu.."
+		print
+		return False
+		
 
+	while 1:
+		monitor = {	1: snmp,
+				2: trap,
+				3: Exit,
+		}
+		
+		
+		print
+		print "Select Operation : \n1. Monitor SNMP messages \n2. Monitor SNMP Traps \n3. Exit \n"
+		select=input("Enter here: ")
+		flag = monitor[select]()
+		if not flag:
+			return
+#####################################################################
 def Exit():
 	print	
-	print "Exiting.."
+	print "Exiting the App.."
 	print
 	sys.exit()
 
-while 1:
-#Added swicth case Input type
-
-	options = {     1: topology,
-			2: linkStats,
-			3: sysStatus,
-			4: snmpGET,
-			5: snmpSET,
-			6: Exit,
-	}
+def main():
+	storedpass=crypt.crypt("cmpe210","K9")
+	#print(storedpass)
 	print
-	print "Please select operation : \n1. Topology \n2. Link Statistics \n3. System Status \n4. Use SNMP-GET \n5. Use SNMP-SET \n6. Exit \n" 
-	num=input("Enter here: ")
-	options[num]()
+	password=getpass.getpass("Please enter the password to continue: ")
+	pascrypt=crypt.crypt(password,"K9")
+	#print(pascrypt)
 
+	if pascrypt==storedpass:
+		while 1:
+		#Added swicth case Input type
 
-	
+			options = {     1: topology,
+					2: linkStats,
+					3: sysStatus,
+					4: snmpGET,
+					5: snmpSET,
+					6: realTime,
+					7: Exit,
+			}
+			print
+			print "Please select operation : \n1. Topology \n2. Link Statistics \n3. System Status \n4. Use SNMP-GET \n5. Use SNMP-SET \n6. Real-Time-Monitoring \n7. Exit \n" 
+			num=input("Enter here: ")
+			options[num]()
+	else:
+		print("You have entered wrong password. Please try again")
+		main()
+
+if __name__=="__main__":
+	main()
