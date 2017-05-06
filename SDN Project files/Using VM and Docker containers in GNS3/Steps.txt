@@ -1,5 +1,38 @@
+***************************
+
 Author: Swapnasheel
-Course: CMPE210 SDN
+Course: CMPE210 SDN/NFV
+
+***************************
+
+------------------------------------------------------------------------------
+
+Adding VM's and Dockers in the GNS3 software (This is written for GNS3 Version 1.5.4)
+
+1. Make sure your GNS3 version and GNS3 VM version are same, if not, please update!
+
+2. To add your Virtual Box VMs in the devices of GNS3 
+	- Edit (from the Title bar)
+	- Perferences 
+	- Click on VirtualBox VMs
+	- New
+	- Select your VM machine from the list
+	- Click Finish
+	- Click Ok
+
+3. To add Docker images
+	- Search for GNS3 marketplace on the internet
+	- In GNS3 marketplace, click on Appliances
+	- Search for your appliance, say Ubuntu
+	- Download the appliance template
+	- In GNS3, click on File (title bar) and select "Import appliance"
+	- Select the downloaded appliance, click next and select GNS3 VM as the server (it's the recommended one)
+	- Click next, if files are missing, click download button, after downloading dependencies click refresh 
+	- Click next and install the appliance
+	- Once  you pull the Docker image from your devices tab in GNS3 to the main area, GNS3 dockers get updated and downloaded (this happen only in the first time)
+	- Your docker is set, right click and uncomment DHCP part in the network settings (found in Edit part) to enable DHCP
+	- Use console to navigate / update / download / make use of the container
+
 
 ------------------------------------------------------------------------------
 
@@ -51,6 +84,9 @@ TO START OVS (if it fails)
 Installing SNMP components
 
 1. sudo apt-get install snmp snmpd snmp-mibs-downloader snmptrapd
+or
+
+apt-get update && apt-get install snmp snmpd snmptrapd -y
 
 Manager - snmp-mibs-downloader
 Deamon  - snmpd snmptrapd
