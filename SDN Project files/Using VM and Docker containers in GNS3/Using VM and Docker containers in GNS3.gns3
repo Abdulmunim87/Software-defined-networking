@@ -6,20 +6,20 @@
     "topology": {
         "links": [
             {
-                "description": "Link from UbuntuVM port Ethernet0 to HUB1 port 2",
-                "destination_node_id": 3,
-                "destination_port_id": 4,
-                "id": 1,
-                "source_node_id": 1,
-                "source_port_id": 1
-            },
-            {
                 "description": "Link from HUB1 port 1 to Internet 0.1-1 port Ethernet0",
                 "destination_node_id": 2,
                 "destination_port_id": 2,
-                "id": 2,
+                "id": 1,
                 "source_node_id": 3,
                 "source_port_id": 3
+            },
+            {
+                "description": "Link from UbuntuVM port Ethernet0 to HUB1 port 2",
+                "destination_node_id": 3,
+                "destination_port_id": 4,
+                "id": 2,
+                "source_node_id": 1,
+                "source_port_id": 1
             },
             {
                 "description": "Link from HUB1 port 3 to Open vSwitch management-1 port eth0",
@@ -30,36 +30,36 @@
                 "source_port_id": 5
             },
             {
-                "description": "Link from HUB1 port 4 to Open vSwitch management-2 port eth0",
-                "destination_node_id": 5,
-                "destination_port_id": 27,
-                "id": 4,
-                "source_node_id": 3,
-                "source_port_id": 6
-            },
-            {
                 "description": "Link from Open vSwitch management-1 port eth1 to Ubuntu-1 port eth0",
                 "destination_node_id": 6,
                 "destination_port_id": 43,
-                "id": 5,
+                "id": 4,
                 "source_node_id": 4,
                 "source_port_id": 12
             },
             {
-                "description": "Link from Open vSwitch management-1 port eth2 to Ubuntu-2 port eth0",
-                "destination_node_id": 7,
-                "destination_port_id": 44,
-                "id": 6,
-                "source_node_id": 4,
-                "source_port_id": 13
+                "description": "Link from HUB1 port 4 to Open vSwitch management-2 port eth0",
+                "destination_node_id": 5,
+                "destination_port_id": 27,
+                "id": 5,
+                "source_node_id": 3,
+                "source_port_id": 6
             },
             {
                 "description": "Link from Open vSwitch management-2 port eth1 to Ubuntu-3 port eth0",
                 "destination_node_id": 8,
                 "destination_port_id": 45,
-                "id": 7,
+                "id": 6,
                 "source_node_id": 5,
                 "source_port_id": 28
+            },
+            {
+                "description": "Link from Open vSwitch management-1 port eth2 to Ubuntu-2 port eth0",
+                "destination_node_id": 7,
+                "destination_port_id": 44,
+                "id": 7,
+                "source_node_id": 4,
+                "source_port_id": 13
             },
             {
                 "description": "Link from Open vSwitch management-2 port eth2 to Ubuntu-4 port eth0",
@@ -68,14 +68,6 @@
                 "id": 8,
                 "source_node_id": 5,
                 "source_port_id": 29
-            },
-            {
-                "description": "Link from Open vSwitch management-1 port eth3 to Open vSwitch management-2 port eth3",
-                "destination_node_id": 5,
-                "destination_port_id": 30,
-                "id": 9,
-                "source_node_id": 4,
-                "source_port_id": 14
             }
         ],
         "nodes": [
@@ -96,7 +88,7 @@
                         "adapter_number": 0,
                         "description": "connected to HUB1 on port 2",
                         "id": 1,
-                        "link_id": 1,
+                        "link_id": 2,
                         "name": "Ethernet0",
                         "nio": "NIO_UDP",
                         "port_number": 0
@@ -117,8 +109,8 @@
                 "server_id": 1,
                 "type": "VirtualBoxVM",
                 "vm_id": "8fbf5a3f-ed08-4ddf-8dd6-9a5cd2c8a50f",
-                "x": -216.0,
-                "y": -139.0
+                "x": 13.0,
+                "y": -239.0
             },
             {
                 "description": "QEMU VM",
@@ -137,7 +129,7 @@
                         "adapter_number": 0,
                         "description": "connected to HUB1 on port 1",
                         "id": 2,
-                        "link_id": 2,
+                        "link_id": 1,
                         "name": "Ethernet0",
                         "nio": "NIO_UDP",
                         "port_number": 0
@@ -172,7 +164,7 @@
                 "symbol": ":/symbols/cloud.svg",
                 "type": "QemuVM",
                 "vm_id": "82629d16-bc88-4fa7-a669-7c67ca805a3c",
-                "x": 323.5,
+                "x": 306.5,
                 "y": -115.0
             },
             {
@@ -190,7 +182,7 @@
                     {
                         "description": "connected to Internet 0.1-1 on port Ethernet0",
                         "id": 3,
-                        "link_id": 2,
+                        "link_id": 1,
                         "name": "1",
                         "nio": "NIO_UDP",
                         "port_number": 1
@@ -198,7 +190,7 @@
                     {
                         "description": "connected to UbuntuVM on port Ethernet0",
                         "id": 4,
-                        "link_id": 1,
+                        "link_id": 2,
                         "name": "2",
                         "nio": "NIO_UDP",
                         "port_number": 2
@@ -214,7 +206,7 @@
                     {
                         "description": "connected to Open vSwitch management-2 on port eth0",
                         "id": 6,
-                        "link_id": 4,
+                        "link_id": 5,
                         "name": "4",
                         "nio": "NIO_UDP",
                         "port_number": 4
@@ -245,8 +237,8 @@
                 },
                 "server_id": 2,
                 "type": "EthernetHub",
-                "x": -36.0,
-                "y": -92.0
+                "x": 10.0,
+                "y": -101.0
             },
             {
                 "description": "Docker container",
@@ -272,7 +264,7 @@
                         "adapter_number": 1,
                         "description": "connected to Ubuntu-1 on port eth0",
                         "id": 12,
-                        "link_id": 5,
+                        "link_id": 4,
                         "name": "eth1",
                         "nio": "NIO_UDP",
                         "port_number": 0
@@ -281,18 +273,15 @@
                         "adapter_number": 2,
                         "description": "connected to Ubuntu-2 on port eth0",
                         "id": 13,
-                        "link_id": 6,
+                        "link_id": 7,
                         "name": "eth2",
                         "nio": "NIO_UDP",
                         "port_number": 0
                     },
                     {
                         "adapter_number": 3,
-                        "description": "connected to Open vSwitch management-2 on port eth3",
                         "id": 14,
-                        "link_id": 9,
                         "name": "eth3",
-                        "nio": "NIO_UDP",
                         "port_number": 0
                     },
                     {
@@ -402,7 +391,7 @@
                         "adapter_number": 0,
                         "description": "connected to HUB1 on port 4",
                         "id": 27,
-                        "link_id": 4,
+                        "link_id": 5,
                         "name": "eth0",
                         "nio": "NIO_UDP",
                         "port_number": 0
@@ -411,7 +400,7 @@
                         "adapter_number": 1,
                         "description": "connected to Ubuntu-3 on port eth0",
                         "id": 28,
-                        "link_id": 7,
+                        "link_id": 6,
                         "name": "eth1",
                         "nio": "NIO_UDP",
                         "port_number": 0
@@ -427,11 +416,8 @@
                     },
                     {
                         "adapter_number": 3,
-                        "description": "connected to Open vSwitch management-1 on port eth3",
                         "id": 30,
-                        "link_id": 9,
                         "name": "eth3",
-                        "nio": "NIO_UDP",
                         "port_number": 0
                     },
                     {
@@ -523,8 +509,8 @@
                 "symbol": ":/symbols/multilayer_switch.svg",
                 "type": "DockerVM",
                 "vm_id": "71ea1098-2821-4022-8ef8-0be6e2e57f10",
-                "x": 155.5,
-                "y": -6.5
+                "x": 139.5,
+                "y": -3.5
             },
             {
                 "description": "Docker container",
@@ -541,7 +527,7 @@
                         "adapter_number": 0,
                         "description": "connected to Open vSwitch management-1 on port eth1",
                         "id": 43,
-                        "link_id": 5,
+                        "link_id": 4,
                         "name": "eth0",
                         "nio": "NIO_UDP",
                         "port_number": 0
@@ -562,7 +548,7 @@
                 "type": "DockerVM",
                 "vm_id": "a032c27b-3fd0-4ccf-bb43-e6280b9f0772",
                 "x": -185.5,
-                "y": 101.5
+                "y": 93.5
             },
             {
                 "description": "Docker container",
@@ -579,7 +565,7 @@
                         "adapter_number": 0,
                         "description": "connected to Open vSwitch management-1 on port eth2",
                         "id": 44,
-                        "link_id": 6,
+                        "link_id": 7,
                         "name": "eth0",
                         "nio": "NIO_UDP",
                         "port_number": 0
@@ -599,8 +585,8 @@
                 "server_id": 2,
                 "type": "DockerVM",
                 "vm_id": "874bcc60-1ac3-49eb-9647-6b1f598d4e3c",
-                "x": -39.5,
-                "y": 101.5
+                "x": -16.5,
+                "y": 92.5
             },
             {
                 "description": "Docker container",
@@ -617,7 +603,7 @@
                         "adapter_number": 0,
                         "description": "connected to Open vSwitch management-2 on port eth1",
                         "id": 45,
-                        "link_id": 7,
+                        "link_id": 6,
                         "name": "eth0",
                         "nio": "NIO_UDP",
                         "port_number": 0

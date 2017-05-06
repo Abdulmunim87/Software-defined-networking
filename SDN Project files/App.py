@@ -45,9 +45,9 @@ def topology():
 def linkStats():
 	switch = raw_input("Enter the Switch Number: ")
 	link = raw_input("Enter the link number wrt the switch given above: ")
-	url1 = 'http://127.0.0.1:8181/restconf/operational/opendaylight-inventory:nodes/node/openflow:'
+	url1 = 'http://localhost:8181/restconf/operational/opendaylight-inventory:nodes/node/openflow:'
 	url2 =  '/node-connector/openflow:'
-	url = url1+switch+url2+switch+':'+port
+	url = url1+switch+url2+switch+':'+link
 	#print url
 
 	print
@@ -91,7 +91,7 @@ def snmpGET():
 	get = raw_input("Please enter the get-type: ")
 	community = raw_input("Please enter the community: ")
 
-	url = 'http://127.0.0.1:8181/restconf/operations/snmp:snmp-get'
+	url = 'http://localhost:8181/restconf/operations/snmp:snmp-get'
 	Param = {
 		    "input":
 		            {
@@ -139,7 +139,7 @@ def snmpSET():
 	community = raw_input("Please enter the community: ")
 	value = raw_input("Please enter the new value: ")
 
-	url = 'http://127.0.0.1:8181/restconf/operations/snmp:snmp-set'
+	url = 'http://localhost:8181/restconf/operations/snmp:snmp-set'
 	Param = {
 		    "input":
 		            {
@@ -166,7 +166,7 @@ def snmpSET():
 def sysStatus():
 	print
 	ip = raw_input("Please enter the IP address: ")
-	url = 'http://127.0.0.1:8181/restconf/operations/snmp:snmp-get'
+	url = 'http://localhost:8181/restconf/operations/snmp:snmp-get'
 
 	system = [('System Description', '1.3.6.1.2.1.1.1.0'),
 		('Local Time', '1.3.6.1.4.1.2021.100.4.0'),
@@ -320,8 +320,9 @@ def realTime():
 		print	
 		print "Exiting to Main menu.."
 		print
-		return False
-		
+		return False	
+
+	os.system('sudo gnome-terminal -x sh -c "python branch.py; bash"')  #Calls the brach file and opens it in new terminal
 
 	while 1:
 		monitor = {	1: snmp,
@@ -331,7 +332,9 @@ def realTime():
 		
 		
 		print
-		print "Select Operation : \n1. Monitor SNMP messages \n2. Monitor SNMP Traps \n3. Exit \n"
+		print "Started monitoring Openflow switches.."
+		print
+		print "Select Operation for : \n1. Monitoring SNMP messages \n2. Monitoring SNMP Traps \n3. Exit \n"
 		select=input("Enter here: ")
 		flag = monitor[select]()
 		if not flag:
@@ -344,7 +347,7 @@ def Exit():
 	sys.exit()
 
 def main():
-	storedpass=crypt.crypt("cmpe210","K9")
+	storedpass=crypt.crypt("c","K9")
 	#print(storedpass)
 	print
 	password=getpass.getpass("Please enter the password to continue: ")
@@ -371,5 +374,6 @@ def main():
 		print("You have entered wrong password. Please try again")
 		main()
 
-if __name__=="__main__":
+if __name__== "__main__":
 	main()
+
