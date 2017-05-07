@@ -9,13 +9,15 @@ import time
 h = httplib2.Http(".cache")
 h.add_credentials('admin', 'admin')
 
-l1 = []
-l2 = []
-l3 = []
-n1 = []
-n2 = []
-n3 = []
+total_links = set()
+alive_links = set()
+total_nodes = set()
+alive_nodes = set()
+
+
 print "Monitoring OpenFlow Switches.."
+
+################################################################################################
 
 def topo():
 	url = "http://localhost:8181/restconf/operational/network-topology:network-topology"
@@ -24,53 +26,123 @@ def topo():
 	topology = portStats['network-topology']['topology'][0]
 	return topology
 
+################################################################################################
+
+def totalLinks():
+	global total_links
+	total_links = set()
+	t1 = topo()
+	for i in range(len(t1['link'])):
+		total_links.add(json.dumps(t1['link'][i]['link-id']))
+		i += 1
+	print "Total links active - ", len(total_links)
+	return
+
+################################################################################################
+
+def totalNodes():
+	global total_nodes
+	total_nodes = set()
+	t1 = topo()
+	for i in range(len(t1['node'])):
+		total_nodes.add(json.dumps(t1['node'][i]['node-id']))
+		i += 1
+	print "Total nodes active - ", len(total_nodes)
+	return
+
+################################################################################################
 
 def checkTopo():
-	global l1
-	t1 = topo()
+	t2 = topo()
 
-	for i in range(len(t1['link'])):
-		l1.append(t1['link'][i]['link-id'])
-		i += 1
+	no_nodes = len(t2['node'])
 
-	n = len(t1['node'])
-
-	l = len(t1['link'])
+	no_links = len(t2['link'])
 	
+	return no_nodes,no_links
 
-	return n,l
+################################################################################################
 
-
-
-
-def trackLinks():	
-	global l1,l2,l3
+def trackLinksUp():	
+	global total_links,alive_links
+	alive_links = set()
+	return_links_up = set()
 	t3 = topo()
 
 	for i in range(len(t3['link'])):
-		l2.append(json.dumps(t3['link'][i]['link-id']))
+		alive_links.add(json.dumps(t3['link'][i]['link-id']))
 		i += 1
 	
-	#print l2
-	#print set(l1)
-	l3 = list(set(l1) - set(l2))
-	return	l3
+	return_links_up = list(alive_links - total_links)
+	print "Links up : \n", return_links_up
+	print
+	
 
-def trackNodes():	
-	global n2,n1
+	return	
+
+################################################################################################
+
+def trackLinksDown():	
+	global total_links,alive_links
+	alive_links = set()
+	return_links_down = set()
+	t3 = topo()
+
+	for i in range(len(t3['link'])):
+		alive_links.add(json.dumps(t3['link'][i]['link-id']))
+		i += 1
+	
+	return_links_down = list(total_links - alive_links)
+	print "Links down : \n", return_links_down
+	print
+
+	return	
+
+################################################################################################
+
+def trackNodesUp():
+	global total_nodes,alive_nodes
+	alive_nodes = set()
+	return_nodes_up = set()
+	t3 = topo()
+	
+	for i in range(len(t3['node'])):
+		alive_nodes.add(json.dumps(t3['node'][i]['node-id']))
+		i += 1
+	
+	return_nodes_up = list(alive_nodes - total_nodes)
+	print "New nodes added : \n", return_nodes_up
+	print
+	
+	
+	return
+
+################################################################################################
+
+def trackNodesDown():	
+	global total_nodes,alive_nodes
+	alive_nodes = set()
+	return_nodes_down = set()
 	t3 = topo()
 
 	for i in range(len(t3['node'])):
-		n2.append(json.dumps(t3['node'][i]['node-id']))
+		alive_nodes.add(json.dumps(t3['node'][i]['node-id']))
 		i += 1
 	
-	#print n2
-	#print set(n1)
-	n3 = list(set(n1) - set(n2))
-	return	n3		
+	return_nodes_down = list(total_nodes - alive_nodes)
+	print "Nodes deleted : \n", return_nodes_down
+	print
+	
+	return		
 
+################################################################################################
 
-def change():
+def track():
+	print
+	totalNodes()
+	totalLinks()
+	print "#####################################################################################"
+	print
 	while(1):	
 		node1,link1 = checkTopo()
 	
@@ -79,24 +151,23 @@ def change():
 		node2,link2 = checkTopo()
 	
 		if(node2 > node1):
-			print
-			print "New nodes added - \n"
-			print trackNodes()
-			print
+			trackNodesUp()
+			print									
 		elif(node2 < node1):
-			print "Nodes deleted - \n"
-			print trackNodes()		
-			print
-
+			trackNodesDown()
+			print 
 		if(link2 > link1):
-			print "Links up - \n"
-			print trackLinks()
+			trackLinksUp()
+			totalNodes()
+			totalLinks()
+			print "#####################################################################################"
 			print
-
-		elif(node2 < node1):
-			print "Links down - \n"
-			print trackLinks()
+		elif(link2 < link1):
+			trackLinksDown()
+			totalNodes()
+			totalLinks()
+			print "#####################################################################################"
 			print
 			
 
-change()
+track()
